@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="css/r_checkmark.css">
+    </head>
+    <body>
+
+        <label class="container">Approve
+            <input type="radio" checked="checked" name="status" value = "Approved">
+            <span class="checkmark"></span>
+        </label>
+        <label class="container">Deny
+            <input type="radio" name="status" value = "Denied">
+            <span class="checkmark"></span>
+        </label>
+        <button id="btn" onclick="displayRadioValue()">CLICKME!</button>
+        <br>
+        <h2 id = "ttt"></h2>
+    </body>
+    <script>
+
+        const body = document.getElementById("ttt");
+        const btn = document.getElementById("btn");
+
+        function displayRadioValue(){
+            var ele = document.getElementsByName('status');
+              
+            for(i = 0; i < ele.length; i++) {
+                if(ele[i].checked)
+                body.innerHTML= "Gender: "+ele[i].value;
+            }
+        }
+
+    </script>
+
+</html>

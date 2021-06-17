@@ -1,0 +1,119 @@
+#viewReportTitle {
+	display: inline;
+}
+
+#logout {
+	display: inline;
+}
+ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: #333;
+}
+
+li {
+	float: left;
+}
+
+li a {
+	display: block;
+	color: white;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+}
+
+li a:hover:not(.active) {
+	background-color: #111;
+}
+
+.active {
+	background-color: #04aa6d;
+}
+
+.bg-modal {
+	background-color: rgba(0, 0, 0, 0.8);
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	display: none;
+	justify-content: center;
+	align-items: center;
+}
+
+.modal-contents {
+	height: 300px;
+	width: 500px;
+	background-color: white;
+	text-align: center;
+	padding: 20px;
+	position: relative;
+	border-radius: 4px;
+}
+
+input {
+	margin: 15px auto;
+	display: block;
+	width: 50%;
+	padding: 8px;
+	border: 1px solid gray;
+}
+
+.close {
+	position: absolute;
+	top: 0;
+	right: 10px;
+	font-size: 42px;
+	color: #333;
+	transform: rotate(45deg);
+	cursor: pointer;
+	&:hover {
+		color: #666;
+	}
+}
+
+table {
+	table-layout: fixed;
+	width: 100%;
+	border-collapse: collapse;
+	background-color: solid purple;
+	border: 3px solid purple;
+	color: rgb(197, 121, 33);
+}
+
+td,
+th,
+tr {
+	border: 3px solid purple;
+}
+
+tr {
+	background-color: rgb(15, 12, 12);
+}
+td {
+	background-color: #000;
+}
+
+.resolveBtn {
+	display: inline-block;
+	padding: 0.35em 1.2em;
+	border: 0.1em solid #12ee84;
+	margin: 0 0.3em 0.3em 0;
+	border-radius: 0.12em;
+	box-sizing: border-box;
+	text-decoration: none;
+	font-family: "Roboto", sans-serif;
+	font-weight: 300;
+	color: #bb2424;
+	text-align: center;
+	transition: all 0.2s;
+}
+
+.resolveBtn:hover {
+	color: #000000;
+	background-color: #ffffff;
+	border: 0.1em solid #20157e;
+}

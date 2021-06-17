@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<title>Create Reports</title>
+		<meta name="description" content="" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="" />
+	</head>
+
+	<ul>
+		<!-- <li><a href="#home">View Reports</a></li> -->
+		<li><a href="view_reports.html">View Reports</a></li>
+		<li>
+			<button class="btn btn-default btn-sm" id = "logout" type="button" onclick="logout()" ><span class="glyphicon glyphicon-log-out"></span>LogOut</button>
+		</li>
+
+	</ul>
+	<h1 id = "viewReportTitle" ></h1>
+
+	<body>
+		Create Reports Here
+		<div class="bg-modal">
+			<div class="modal-contents">
+				<div class="close">+</div>		
+				<form id = "resolveForm" action="">
+					<div id = "updateBoxTitle"></div>
+					<label class="container">Approve
+						<input type="radio" checked="checked" name="status" value = "Approved">
+						<span class="checkmark"></span>
+					</label>
+					<label class="container">Deny
+						<input type="radio" name="status" value = "Denied">
+						<span class="checkmark"></span>
+					</label>
+					<div id = "testCheckBox"></div>
+					<input type="text" id = "rComment" placeholder="Comment...">
+					<a type= "button" class="button" id = "rUpdateBtn">Submit</a>
+				</form>
+		
+			</div>
+		</div>
+	</body>
+	<script>
+
+		function logout(){
+			window.location.assign("/front_end/login.html");
+			return JSON.parse(localStorage.clear());	
+		}
+
+	</script>
+</html>

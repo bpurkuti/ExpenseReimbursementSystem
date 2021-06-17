@@ -1,0 +1,65 @@
+body {
+	margin: 0;
+	padding: 0;
+	background-color: #00080aba;
+	font-family: "Arial";
+}
+.loginbox {
+	width: 310px;
+	overflow: hidden;
+	margin: auto;
+	margin: 20 0 0 450px;
+	padding: 80px;
+	background: #1a270b;
+	border-radius: 15px;
+}
+h2 {
+	text-align: center;
+	color: #b86d27;
+	padding: 20px;
+}
+label {
+	color: #e76edf;
+	font-size: 17px;
+}
+
+#login {
+	margin: auto;
+	display: inline-block;
+}
+
+#uname {
+	width: 300px;
+	height: 30px;
+	border: none;
+	border-radius: 3px;
+	padding-left: 8px;
+}
+#pass {
+	width: 300px;
+	height: 30px;
+	border: none;
+	border-radius: 3px;
+	padding-left: 8px;
+}
+#loginBtn {
+	width: 308px;
+	height: 30px;
+	border: none;
+	border-radius: 17px;
+	padding-left: 7px;
+	color: blue;
+}
+#loginBtn:hover {
+	background-color: yellow;
+}
+
+#loginsubmit,
+#loginError {
+	color: rgb(134, 20, 20);
+	align-items: center;
+}
+span {
+	color: white;
+	font-size: 17px;
+}

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Login page</title>
+		<link rel="stylesheet" href="css/login.css" />
+	</head>
+	<body>
+		<h2>LOGIN PAGE</h2>
+		<br />
+		<div class="loginbox">
+			<form id="login" method="get" action="">
+				<label><b>Username </b> </label>
+				<input type="text" name="uname" id="uname" placeholder="Username" />
+				<br /><br />
+				<label><b>Password </b> </label>
+				<input type="Password" name="pass" id="pass" placeholder="Password" />
+				<br /><br />
+				<input
+					type="button"
+					name="loginBtn"
+					id="loginBtn"
+					value="Sign In"
+					onclick="loginfunc()"
+				/>
+				<br /><br />
+				<div class id="loginError"></div>
+				<br /><br />
+				<input type="checkbox" id="check" />
+				<span>Remember me</span>
+				<br /><br />
+				<a href="#" id="loginsubmit"> Forgot Password</a>
+			</form>
+		</div>
+	</body>
+
+	<script>
+		const uname = document.getElementById("uname");
+		const pass = document.getElementById("pass");
+		const loginBtn = document.getElementById("loginBtn");
+		const loginError = document.getElementById("loginError");
+
+		async function loginfunc(){
+			const data = {
+				username: uname.value,
+				password: pass.value
+			}
+			const config = {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(data),
+			};
+
+			const response = await fetch(`http://localhost:5000/employee/login`, config);
+			console.log(response)
+			if (response.status === 200) {
+				const response = await fetch(`http://localhost:5000/employee/username/${uname.value}`);
+				const employee = await response.json();
+
+				localStorage.setItem("currentUser", JSON.stringify(employee.username));
+				localStorage.setItem("userId", JSON.stringify(employee.eId))
+				localStorage.setItem("isManager",employee.isManager?1:0)
+
+				window.location.assign("/front_end/view_reports.html");
+				loginError.innerHTML = "Logged In!"
+
+			} else {
+				loginError.innerHTML = "Password is incorrect!"
+				pass.value =""
+			}
+		}
+
+		//Trigger button press when entering in password box
+		pass.addEventListener("keyup", (event) => {
+			if (event.keyCode === 13) {
+				event.preventDefault();
+				loginBtn.click();
+			}
+		});
+	</script>
+</html>

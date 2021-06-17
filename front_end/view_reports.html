@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<title>Reports</title>
+		<meta name="description" content="" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="css/view_reports.css" />
+		<link rel="stylesheet" href="css/r_checkmark.css" />
+
+
+	</head>
+	<body>
+		<ul>
+			<!-- <li><a href="#home">View Reports</a></li> -->
+			<li><a href="create_reports.html">Create Reports</a></li>
+			<li>
+				<button class="btn btn-default btn-sm" id = "logout" type="button" onclick="logout()" ><span class="glyphicon glyphicon-log-out"></span>LogOut</button>
+			</li>
+
+		</ul>
+		<h1 id = "viewReportTitle" ></h1>
+
+		<!-- Update Reimbursement Box -->
+		<div class="bg-modal">
+			<div class="modal-contents">
+				<div class="close">+</div>		
+				<form id = "resolveForm" action="">
+					<div id = "updateBoxTitle"></div>
+					<label class="container">Approve
+						<input type="radio" checked="checked" name="status" value = "Approved">
+						<span class="checkmark"></span>
+					</label>
+					<label class="container">Deny
+						<input type="radio" name="status" value = "Denied">
+						<span class="checkmark"></span>
+					</label>
+					<div id = "testCheckBox"></div>
+					<input type="text" id = "rComment" placeholder="Comment...">
+					<a type= "button" class="button" id = "rUpdateBtn">Submit</a>
+				</form>
+		
+			</div>
+		</div>
+
+		<!-- Reimbursement Table -->
+		<table class="table">
+			<thead id = "tableHead">
+				<th>ID</th>
+				<th>Description</th>
+				<th>Amount</th>
+				<th>Status</th>
+				<th>Submitter</th>
+				<th>Resolver</th>
+				<th>Submit Date</th>
+				<th>Resolve Date</th>
+				<th>Comments</th>
+			</thead>
+			<tbody id = "reportsList"></tbody>
+		</table>
+
+	</body>
+	<script>
+		const viewReportTitle = document.getElementById("viewReportTitle");
+		const reportsList = document.getElementById("reportsList");
+		const tableHead = document.getElementById("tableHead");
+
+		//Fills the View Reports Page for either employee or manager
+		function fillReports(){
+			isManager = localStorage.getItem("isManager");
+			if(Number(isManager)===1){
+				getAllReports();
+				console.log("Getting All Reports");
+			}else{
+				getReportsByEmployee();
+				console.log("Getting Employee Reports");
+
+			}
+		}
+
+		//Fills the View Reports Page for employee
+		async function getReportsByEmployee(){
+			const response = await fetch(`http://localhost:5000/employee/${localStorage.getItem("userId")}/reimbursement`);
+			const reports = await response.json();
+			let innerRows = "";
+            for(let report of reports){
+                innerRows += `<tr>
+                <td>${report.rId}</td>
+                <td>${report.reason}</td>
+                <td>${report.amount}</td>
+                <td>${report.status}</td>
+                <td>${report.submitterId}</td>
+                <td>${report.resolverId}</td>
+                <td>${report.submitDate}</td>
+                <td>${report.resolveDate}</td>
+				<td>${report.comment}</td>
+                </tr>`
+            }
+
+			reportsList.innerHTML = innerRows;
+		}
+
+
+		//Fills the View Reports Page for manager
+		async function getAllReports(){
+			const response = await fetch(`http://localhost:5000/employee/reimbursement`);
+			const reports = await response.json();
+			let innerRows = "";
+            for(let report of reports){
+                innerRows += `<tr>
+                <td>${report.rId}</td>
+                <td>${report.reason}</td>
+                <td>${report.amount}</td>
+                <td>${report.status}</td>
+                <td>${report.submitterId}</td>
+                <td>${report.resolverId}</td>
+                <td>${report.submitDate}</td>
+                <td>${report.resolveDate}</td>
+				<td>${report.comment}</td>
+				${report.status === "Pending"?`<td><button id='resolveBtn${report.rId}' class = 'resolveBtn' value = ${report.rId} data-sid = ${report.submitterId} onclick="managerForm(this.value)">Resolve</button></td>`:"<td/>"}
+                </tr>`
+            }
+
+			reportsList.innerHTML = innerRows;
+		}
+
+		//Form to approve or deny reimbursement
+		function managerForm(reimbId){
+			const updateBoxTitle = document.getElementById('updateBoxTitle');
+			const updateBtn = document.getElementById('rUpdateBtn');
+			const resolveForm = document.getElementById('resolveForm');
+
+			updateBoxTitle.innerHTML = `Update Reimbursement ${reimbId}`;
+
+			const resolveBtn = document.getElementById(`resolveBtn${reimbId}`);
+			const sId = resolveBtn.dataset.sid;
+
+
+			document.querySelector('.bg-modal').style.display = "flex";
+			document.querySelector('.close').addEventListener("click", function() {
+				document.querySelector('.bg-modal').style.display = "none";
+			});
+
+
+
+			updateBtn.addEventListener("click", function(){
+				updateReimbursement(reimbId, sId)
+				document.querySelector('.bg-modal').style.display = "none";
+			});
+			
+			resolveForm.addEventListener("submit", ()=>{console.log("Form submitted")});
+
+		}
+
+		function displayRadioValue(){
+            var ele = document.getElementsByName('status');
+            var body = document.getElementById('testCheckBox')
+            for(i = 0; i < ele.length; i++) {
+                if(ele[i].checked)
+				return ele[i].value;
+            }
+        }
+
+		async function updateReimbursement(reimbId, sId){
+			const status = displayRadioValue();
+			const resolverId = localStorage.getItem("userId");
+			const comment = document.getElementById("rComment").value
+			const data = {
+				rId: reimbId,
+				reason: "N/A",
+				comment: comment,
+				amount: 0,
+				status: status,
+				submitterId: sId,
+				resolverId: resolverId,
+				submitDate: "N/A",
+				resolveDate: "N/A",
+			}
+
+			console.log(data);
+		
+			const config = {
+				method: "PUT",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(data),
+			};
+
+			const response = await fetch(`http://localhost:5000/employee/${sId}/reimbursement/${reimbId}`, config);
+			console.log(response)
+			if (response.status === 200){
+				fillReports();
+			}
+		}
+
+		function logout(){
+			window.location.assign("/front_end/login.html");
+			return JSON.parse(localStorage.clear());	
+		}
+
+		fillReports();
+	</script>
+</html>
