@@ -19,7 +19,7 @@ class ReimbursementDaoPostgres(ReimbursementDao):
     def create_reimbursement(self, reimb: Reimbursement) -> Reimbursement:
         exists = check_employee(reimb.submitter_id)
         if exists:
-            sql = """insert into reimbursement values(default, %s, %s, %s, %s, %s, %s ,current_timestamp,%s) returning r_id;"""
+            sql = """insert into reimbursement values(default, %s, %s, %s, %s, %s, %s ,current_timestamp at time zone 'PDT',%s) returning r_id;"""
             cursor = connection.cursor()
             cursor.execute(sql, [reimb.reason, reimb.comment, reimb.amount, reimb.status, reimb.submitter_id, 0,
                                  reimb.resolve_date])
@@ -74,7 +74,7 @@ class ReimbursementDaoPostgres(ReimbursementDao):
     def update_reimbursement(self, r_id: int, reimb: Reimbursement) -> Reimbursement:
         get_reimb = self.get_reimbursement(r_id, reimb.submitter_id)
         if get_reimb:
-            sql = """update reimbursement set status = %s, comment = %s, resolver_id = %s, resolve_date = current_timestamp where r_id = %s and submitter_id = %s returning r_id, submitter_id;"""
+            sql = """update reimbursement set status = %s, comment = %s, resolver_id = %s, resolve_date = current_timestamp at time zone 'PDT' where r_id = %s and submitter_id = %s returning r_id, submitter_id;"""
             cursor = connection.cursor()
             cursor.execute(sql, [reimb.status, reimb.comment, reimb.resolver_id, r_id, reimb.submitter_id])
             connection.commit()

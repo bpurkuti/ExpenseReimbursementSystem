@@ -10,48 +10,114 @@
 		<title>Create Reports</title>
 		<meta name="description" content="" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<link rel="stylesheet" href="" />
+		<link rel="stylesheet" href="css/r_checkmark.css" />
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="css/view_reports.css" />
+		<link rel="stylesheet" href="css/create_reports.css" />
+
+
+
 	</head>
+	
 
 	<ul>
-		<!-- <li><a href="#home">View Reports</a></li> -->
-		<li><a href="view_reports.html">View Reports</a></li>
-		<li>
-			<button class="btn btn-default btn-sm" id = "logout" type="button" onclick="logout()" ><span class="glyphicon glyphicon-log-out"></span>LogOut</button>
-		</li>
+		<li class = "liLeft"><a href="view_reports.html">View Reports</a></li>
 
+		<li class = "liRight">
+			<button class="btn btn-sm" id = "logout" type="button" onclick="logout()" >
+				<span class="glyphicon glyphicon-log-out"></span>
+				LogOut
+			</button>
+		</li>
 	</ul>
 	<h1 id = "viewReportTitle" ></h1>
 
 	<body>
-		Create Reports Here
-		<div class="bg-modal">
-			<div class="modal-contents">
-				<div class="close">+</div>		
-				<form id = "resolveForm" action="">
-					<div id = "updateBoxTitle"></div>
-					<label class="container">Approve
-						<input type="radio" checked="checked" name="status" value = "Approved">
-						<span class="checkmark"></span>
-					</label>
-					<label class="container">Deny
-						<input type="radio" name="status" value = "Denied">
-						<span class="checkmark"></span>
-					</label>
-					<div id = "testCheckBox"></div>
-					<input type="text" id = "rComment" placeholder="Comment...">
-					<a type= "button" class="button" id = "rUpdateBtn">Submit</a>
-				</form>
+			<h4 class = "pageTitle">Create Reports</h4>
 		
-			</div>
+		<div class = "cform">
+			<ul class = "cul">
+			<li class = "cli">
+			<label class = "clabel " for="name">Amount:</label>
+			<input class = "cinput" type="number" id="cAmount" name="user_name" />
+			</li>
+			<li class = "cli">
+			<label class = "clabel" for="msg">Description:</label>
+			<textarea class = "ctextarea" id="cReason" name="user_message"></textarea>
+			</li>
+
+				<li class = "cli">
+					<button class = "cbutton" onclick="createReimbursement()">
+						Submit
+					</button>
+				</li>
+			</ul>
 		</div>
+
+		<h4 class = "pageTitle" id = "submitMsg"></h4>
+
+		
 	</body>
 	<script>
+		const cAmount = document.getElementById("cAmount");
+		const cReason = document.getElementById("cReason");
+
+		function isEmpty(str) {
+			const len = !str.trim().length;
+			return len;
+		}
+		async function createReimbursement() {
+			const ramout = cAmount.value;
+			const rreason = cReason.value;
+			const a = isEmpty(ramout);
+			const r = isEmpty(rreason);
+			if(!a && !r){
+				const data = {
+					rId: 0,
+					reason: cReason.value,
+					comment: "",
+					amount: cAmount.value,
+					status: "Pending",
+					submitterId: localStorage.getItem("userId"),
+					resolverId: 0,
+					submitDate: "",
+					resolveDate: ""
+				}
+
+				console.log(data);
+				const config = {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify(data),
+				};
+				const response = await fetch(`http://localhost:5000/employee/${localStorage.getItem("userId")}/reimbursement`, config);
+				if(response.status === 201)
+				{
+					document.getElementById("submitMsg").innerHTML = "Reimbursement created successfully!";
+				}
+				else{
+					document.getElementById("submitMsg").innerHTML = "Some problem occured!";
+				}
+				cAmount.value = "";
+				cReason.value = "";
+			}
+			else{
+				console.log("Fields cannot be empty")
+			}
+			
+		}
 
 		function logout(){
 			window.location.assign("/front_end/login.html");
 			return JSON.parse(localStorage.clear());	
 		}
+
+		cReason.addEventListener("keyup", function(e){
+			if(e.keyCode ===13){
+				e.preventDefault();
+				createReimbursement();
+			}
+		})
 
 	</script>
 </html>
