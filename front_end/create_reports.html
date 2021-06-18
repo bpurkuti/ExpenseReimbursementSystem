@@ -22,7 +22,7 @@
 
 	<ul>
 		<li class = "liLeft"><a href="view_reports.html">View Reports</a></li>
-
+		<li class = "liLeft" id = "statisticsPage"></li>
 		<li class = "liRight">
 			<button class="btn btn-sm" id = "logout" type="button" onclick="logout()" >
 				<span class="glyphicon glyphicon-log-out"></span>
@@ -61,6 +61,15 @@
 	<script>
 		const cAmount = document.getElementById("cAmount");
 		const cReason = document.getElementById("cReason");
+
+		function onPageLoad(){
+			const statisticsPage = document.getElementById("statisticsPage");
+			isManager = localStorage.getItem("isManager");
+			if(Number(isManager)===1){
+				statisticsPage.innerHTML = `<a href="statistics.html">Statistics</a>`;
+			}
+
+		}
 
 		function isEmpty(str) {
 			const len = !str.trim().length;
@@ -118,6 +127,6 @@
 				createReimbursement();
 			}
 		})
-
+		onPageLoad()
 	</script>
 </html>

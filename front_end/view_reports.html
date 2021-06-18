@@ -15,8 +15,9 @@
 	</head>
 
 	<ul>
-		<!-- <li><a href="#home">View Reports</a></li> -->
 		<li class = "liLeft"><a href="create_reports.html">Create Reports</a></li>
+		<li class = "liLeft" id = "statisticsPage"></li>
+
 		<li class = "liRight">
 			<button class="btn btn-default btn-sm" id = "logout" type="button" onclick="logout()" ><span class="glyphicon glyphicon-log-out"></span>LogOut</button>
 		</li>
@@ -30,7 +31,7 @@
 		<div class="bg-modal">
 			<div class="modal-contents">
 				<div class="close">+</div>		
-				<form id = "resolveForm" action="">
+				<div id = "resolveForm">
 					<div id = "updateBoxTitle"></div>
 					<label class="container">Approve
 						<input type="radio" checked="checked" name="status" value = "Approved">
@@ -43,7 +44,7 @@
 					<div id = "testCheckBox"></div>
 					<input type="text" id = "rComment" placeholder="Comment...">
 					<a type= "button" class="button" id = "rUpdateBtn">Submit</a>
-				</form>
+				</div>
 		
 			</div>
 		</div>
@@ -72,8 +73,10 @@
 
 		//Fills the View Reports Page for either employee or manager
 		function fillReports(){
+			const statisticsPage = document.getElementById("statisticsPage");
 			isManager = localStorage.getItem("isManager");
 			if(Number(isManager)===1){
+				statisticsPage.innerHTML = `<a href="statistics.html">Statistics</a>`;
 				getAllReports();
 				console.log("Getting All Reports");
 			}else{
