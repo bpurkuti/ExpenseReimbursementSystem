@@ -67,10 +67,22 @@
 
 	</body>
 	<script>
+		let currReimId;
+		let currsId
 		const viewReportTitle = document.getElementById("viewReportTitle");
 		const reportsList = document.getElementById("reportsList");
 		const tableHead = document.getElementById("tableHead");
 
+		const updateBoxTitle = document.getElementById('updateBoxTitle');
+		const updateBtn = document.getElementById('rUpdateBtn');
+
+
+
+		updateBtn.addEventListener("click", function(){
+			updateReimbursement()
+			document.querySelector('.bg-modal').style.display = "none";
+		});
+		
 		//Fills the View Reports Page for either employee or manager
 		function fillReports(){
 			const statisticsPage = document.getElementById("statisticsPage");
@@ -134,30 +146,16 @@
 
 		//Form to approve or deny reimbursement
 		function managerForm(reimbId){
-			const updateBoxTitle = document.getElementById('updateBoxTitle');
-			const updateBtn = document.getElementById('rUpdateBtn');
-			const resolveForm = document.getElementById('resolveForm');
-
 			updateBoxTitle.innerHTML = `Update Reimbursement ${reimbId}`;
-
 			const resolveBtn = document.getElementById(`resolveBtn${reimbId}`);
-			const sId = resolveBtn.dataset.sid;
-
+			currReimId = reimbId;
+			currsId = resolveBtn.dataset.sid;
 
 			document.querySelector('.bg-modal').style.display = "flex";
 			document.querySelector('.close').addEventListener("click", function() {
 				document.querySelector('.bg-modal').style.display = "none";
 			});
-
-
-
-			updateBtn.addEventListener("click", function(){
-				updateReimbursement(reimbId, sId)
-				document.querySelector('.bg-modal').style.display = "none";
-			});
 			
-			resolveForm.addEventListener("submit", ()=>{console.log("Form submitted")});
-
 		}
 
 		function displayRadioValue(){
@@ -169,17 +167,18 @@
             }
         }
 
-		async function updateReimbursement(reimbId, sId){
+		async function updateReimbursement(){
+
 			const status = displayRadioValue();
 			const resolverId = localStorage.getItem("userId");
 			const comment = document.getElementById("rComment").value
 			const data = {
-				rId: reimbId,
+				rId: currReimId,
 				reason: "N/A",
 				comment: comment,
 				amount: 0,
 				status: status,
-				submitterId: sId,
+				submitterId: currsId,
 				resolverId: resolverId,
 				submitDate: "N/A",
 				resolveDate: "N/A",
@@ -193,7 +192,7 @@
 				body: JSON.stringify(data),
 			};
 
-			const response = await fetch(`http://localhost:5000/employee/${sId}/reimbursement/${reimbId}`, config);
+			const response = await fetch(`http://localhost:5000/employee/${currsId}/reimbursement/${currReimId}`, config);
 			console.log(response)
 			if (response.status === 200){
 				fillReports();
