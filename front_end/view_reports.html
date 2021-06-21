@@ -15,7 +15,7 @@
 	</head>
 
 	<ul>
-		<li class = "liLeft"><a href="create_reports.html">Create Reports</a></li>
+		<li class = "liLeft"><a href="create_reports.html" id = "createReportsPage">Create Reports</a></li>
 		<li class = "liLeft" id = "statisticsPage"></li>
 
 		<li class = "liRight">
@@ -30,15 +30,15 @@
 		<!-- Update Reimbursement Box -->
 		<div class="bg-modal">
 			<div class="modal-contents">
-				<div class="close">+</div>		
+				<div class="close" id = "closeForm">+</div>		
 				<div id = "resolveForm">
 					<div id = "updateBoxTitle"></div>
 					<label class="container">Approve
-						<input type="radio" checked="checked" name="status" value = "Approved">
+						<input type="radio" checked="checked" name="status" value = "Approved" id = "cApproved">
 						<span class="checkmark"></span>
 					</label>
 					<label class="container">Deny
-						<input type="radio" name="status" value = "Denied">
+						<input type="radio" name="status" value = "Denied" id = "cDenied">
 						<span class="checkmark"></span>
 					</label>
 					<div id = "testCheckBox"></div>
@@ -88,7 +88,7 @@
 			const statisticsPage = document.getElementById("statisticsPage");
 			isManager = localStorage.getItem("isManager");
 			if(Number(isManager)===1){
-				statisticsPage.innerHTML = `<a href="statistics.html">Statistics</a>`;
+				statisticsPage.innerHTML = `<a href="statistics.html" id = "statisticsPageLink">Statistics</a>`;
 				getAllReports();
 				console.log("Getting All Reports");
 			}else{
@@ -200,7 +200,7 @@
 		}
 
 		function logout(){
-			window.location.assign("/front_end/login.html");
+			window.location.assign("file:///C:/Users/Bishwo%20Purkuti/PycharmProjects/ExpenseReimbursement/front_end/login.html");
 			return JSON.parse(localStorage.clear());	
 		}
 

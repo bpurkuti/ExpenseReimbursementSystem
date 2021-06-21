@@ -21,7 +21,7 @@
 	
 
 	<ul>
-		<li class = "liLeft"><a href="view_reports.html">View Reports</a></li>
+		<li class = "liLeft"><a href="view_reports.html" id = "viewReportsPage">View Reports</a></li>
 		<li class = "liLeft" id = "statisticsPage"></li>
 		<li class = "liRight">
 			<button class="btn btn-sm" id = "logout" type="button" onclick="logout()" >
@@ -33,7 +33,7 @@
 	<h1 id = "viewReportTitle" ></h1>
 
 	<body>
-			<h4 class = "pageTitle">Create Reports</h4>
+			<h4 class = "pageTitle">Create Reimbursement</h4>
 		
 		<div class = "cform">
 			<ul class = "cul">
@@ -66,7 +66,7 @@
 			const statisticsPage = document.getElementById("statisticsPage");
 			isManager = localStorage.getItem("isManager");
 			if(Number(isManager)===1){
-				statisticsPage.innerHTML = `<a href="statistics.html">Statistics</a>`;
+				statisticsPage.innerHTML = `<a href="statistics.html" id = "statisticsPageLink">Statistics</a>`;
 			}
 
 		}
@@ -117,7 +117,7 @@
 		}
 
 		function logout(){
-			window.location.assign("/front_end/login.html");
+			window.location.assign("file:///C:/Users/Bishwo%20Purkuti/PycharmProjects/ExpenseReimbursement/front_end/login.html");
 			return JSON.parse(localStorage.clear());	
 		}
 
