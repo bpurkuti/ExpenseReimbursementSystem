@@ -1,6 +1,6 @@
 # ExpenseReimbursementSystem
 
-## key features
+## Key features
 
 ### Employee
 An employee can login to see their own reimbursements, past and pending
