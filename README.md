@@ -18,7 +18,7 @@
 - Postgresql for RDBMS
 
 ### Frontend
-- Javascript
+- JavaScript
 - Html/Css
 
 ### Testing Tools
