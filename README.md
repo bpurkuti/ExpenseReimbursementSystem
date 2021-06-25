@@ -24,4 +24,4 @@
 ### Testing Tools
 - Pytest for unittesting and integration testing
 - Cucumber/behave for writing user stories and Acceptance Criteria as well as generating steps
-- Selenium for browser automation using ceceumber steps for our testing purposes
+- Selenium for browser automation using Cucumber steps for our testing purposes
